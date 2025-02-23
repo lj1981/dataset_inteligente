@@ -75,6 +75,8 @@ pagamentos_pesos = [40, 30, 20, 10]
 
 # Expandir os dados
 expanded_data = []
+ticket_medio = {}
+
 for i in range(n_linhas):
     cliente_id = ids[i]
     nome = nomes_clientes[i]
@@ -94,6 +96,8 @@ for i in range(n_linhas):
     avaliacoes_aleatorias = random.choices(avaliacoes, weights=avaliacoes_pesos, k=len(produtos_comprados))
     pagamentos_aleatorios = random.choices(pagamentos, weights=pagamentos_pesos, k=len(produtos_comprados))
 
+    ticket_medio[cliente_id] = sum(valores) / num_produtos
+
     for produto, valor, data_compra, avaliacao, pagamento in zip(produtos_comprados, valores, datas_compras,
                                                                  avaliacoes_aleatorias, pagamentos_aleatorios):
         expanded_data.append({
@@ -107,7 +111,8 @@ for i in range(n_linhas):
             "Valor": f"R${valor:.2f}",
             "Data_Compra": data_compra.strftime("%Y-%m-%d"),
             "Avaliacao": avaliacao,
-            "Pagamento": pagamento
+            "Pagamento": pagamento,
+            "Ticket_Medio": f"R${ticket_medio[cliente_id]:.2f}"
         })
 
 # Criar DataFrame e salvar CSV
