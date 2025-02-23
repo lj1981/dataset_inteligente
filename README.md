@@ -1,6 +1,6 @@
 # dataset_inteligente  ( Para ajudar nos estudo )
 
-resumo do  código  é um script Python que gera um dataset fictício de clientes e suas compras, e então salva esses dados em um arquivo CSV. Vou detalhar cada parte do código para que você possa entender melhor o que está acontecendo.
+Resumo do  código  é um script Python que gera um dataset fictício de clientes e suas compras, e então salva esses dados em um arquivo CSV. Vou detalhar cada parte do código para que você possa entender melhor o que está acontecendo.
 
 1. Importações de Bibliotecas
 python
