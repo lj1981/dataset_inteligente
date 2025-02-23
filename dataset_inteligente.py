@@ -46,9 +46,15 @@ def obter_nomes():
 cidades_lista, estados_lista = obter_cidades_e_estados()
 nomes_lista = obter_nomes()
 
+# Geração de probabilidades dinâmicas
+prob_genero = [random.randint(50, 70), 100 - random.randint(50, 70)]
+prob_pagamento = [random.randint(30, 50), random.randint(20, 40), random.randint(10, 30), random.randint(5, 15)]
+prob_avaliacao = [random.randint(20, 40), random.randint(30, 50), random.randint(10, 30), random.randint(5, 15),
+                  random.randint(1, 10)]
+
 # Geração de dados aleatórios
 idades = [random.randint(18, 60) for _ in range(n_linhas)]
-generos = random.choices(["Feminino", "Masculino"], weights=[60, 40], k=n_linhas)
+generos = random.choices(["Feminino", "Masculino"], weights=prob_genero, k=n_linhas)
 cidades_selecionadas = random.choices(cidades_lista, k=n_linhas)
 estados_selecionados = [estados_lista[cidades_lista.index(cidade)] for cidade in cidades_selecionadas]
 nomes_clientes = [f"{random.choice(nomes_lista)} {random.choice(nomes_lista)}" for _ in range(n_linhas)]
@@ -65,13 +71,9 @@ produtos_variados = {
     "Brinquedos": ["Boneca", "Carrinho", "Jogo de Tabuleiro", "Quebra-Cabeça"],
     "Eletrodomésticos": ["Liquidificador", "Micro-ondas", "Aspirador de Pó", "Máquina de Café"]
 }
-produtos_pesos = {"Eletrônicos": 20, "Vestuário": 30, "Acessórios": 15, "Livros e Cultura": 10, "Beleza e Saúde": 10,
-                  "Casa e Decoração": 5, "Serviços": 5, "Brinquedos": 3, "Eletrodomésticos": 2}
 
 avaliacoes = ["Excelente", "Boa", "Neutra", "Ruim", "Péssimo"]
-avaliacoes_pesos = [30, 40, 20, 7, 3]
 pagamentos = ["Pix", "Crédito", "Débito", "Dinheiro"]
-pagamentos_pesos = [40, 30, 20, 10]
 
 # Expandir os dados
 expanded_data = []
@@ -86,15 +88,12 @@ for i in range(n_linhas):
     estado = estados_selecionados[i]
 
     num_produtos = random.randint(1, 6)
-    categorias_escolhidas = random.choices(list(produtos_variados.keys()),
-                                           weights=[produtos_pesos[cat] for cat in produtos_variados.keys()],
-                                           k=num_produtos)
-    produtos_comprados = [random.choice(produtos_variados[categoria]) for categoria in categorias_escolhidas]
+    produtos_comprados = random.choices(list(produtos_variados.values()), k=num_produtos)
     valores = [round(random.uniform(10, 1000), 2) for _ in produtos_comprados]
     data_inicial = datetime(2023, 1, 1)
     datas_compras = [data_inicial + timedelta(days=random.randint(0, 365)) for _ in produtos_comprados]
-    avaliacoes_aleatorias = random.choices(avaliacoes, weights=avaliacoes_pesos, k=len(produtos_comprados))
-    pagamentos_aleatorios = random.choices(pagamentos, weights=pagamentos_pesos, k=len(produtos_comprados))
+    avaliacoes_aleatorias = random.choices(avaliacoes, weights=prob_avaliacao, k=len(produtos_comprados))
+    pagamentos_aleatorios = random.choices(pagamentos, weights=prob_pagamento, k=len(produtos_comprados))
 
     ticket_medio[cliente_id] = sum(valores) / num_produtos
 
